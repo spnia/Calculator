@@ -5,55 +5,10 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useState } from "react";
+import { Button, SafeAreaView, StyleSheet, Text, TextInput, useColorScheme, View } from "react-native";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -62,36 +17,45 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const state = {
+    text: '',
+    inputText: ''
+  };
+
+  const submit = () => {
+  // @ts-ignore
+    setState({text: state.inputText});
+  };
+
+  const [inputText, setInputText] = useState('');
+  const [inText, setInText] = useState('');
+
+  const handleButtonPress = () => {
+    setInText((prevText) => prevText + '\n' + inputText);
+    // 입력한 텍스트를 비움
+    setInputText('');
+  };
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView style={styles.backgroundcol}>
+      <Text style={styles.title}>To Do List!</Text>
+      <View style={styles.sectionDescription}>
+        <View style={styles.partition}>
+          <Text style={styles.whitetext}>할 일 입력...</Text>
+          <TextInput
+            placeholder='입력...'
+            maxLength={30}
+            style={{color: 'white'}}
+            onChangeText={(text) => setInputText(text)}
+            value={inputText}
+          ></TextInput>
         </View>
-      </ScrollView>
+        <Button title='할 일 추가' onPress={handleButtonPress}></Button>
+        <View style={styles.partition}>
+          <Text style={styles.whitetext}>할 일 목록</Text>
+          <Text style={styles.whitetext}>{inText}</Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -112,6 +76,23 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  partition: {
+    backgroundColor: '#080808',
+    borderRadius: 13,
+    margin: 15,
+    padding: 10,
+  },
+  whitetext: {
+    color: 'white',
+  },
+  title: {
+    margin: 15,
+    fontSize: 35,
+    color: '#080808',
+  },
+  backgroundcol: {
+    backgroundColor: '#e3e3e3',
   },
 });
 
