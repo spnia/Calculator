@@ -50,7 +50,7 @@ function App(): React.JSX.Element {
             value={inputText}
           ></TextInput>
         </View>
-        <Button title='할 일 추가' onPress={handleButtonPress}></Button>
+        <Button title='할 일 추가..' onPress={handleButtonPress}></Button>
         <View style={styles.partition}>
           <Text style={styles.whitetext}>할 일 목록</Text>
           <Text style={styles.whitetext}>{inText}</Text>
